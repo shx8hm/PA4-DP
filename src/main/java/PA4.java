@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// Shared Test-Cases with Vrishak (mxw4hg)
+
 public class PA4 {
 
     static enum SchoolName {
