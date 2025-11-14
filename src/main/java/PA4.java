@@ -60,16 +60,37 @@ public class PA4 {
         int[][] sol = new int[n][n];
 
         // 1a. Initialize base cases bottom-up
-        for (int i = 0; i < n; i += 1) {
-            sol[i][i] = P[i]; // sol(i, i) means 'the subarray with just person i (P[i])'
-        }
-
-
-        // 2. Run DP
         int i = 0, j = 1;
         int max_i = -1, max_j = -1; // indices
         int max_sum = Integer.MIN_VALUE;
 
+        // Initialize base cases bottom-up
+        for (i = 0; i < n; i += 1) {
+            sol[i][i] = P[i]; // sol(i, i) means 'the subarray with just person i (P[i])'
+
+            // CORNER CASE- check for max on diagonal (just one person P[i])
+            if (sol[i][i] == max_sum) {
+                // if this is a tie that starts earlier (or ends earlier if start is tie)
+                boolean starts_earlier_i = i < max_i;
+                boolean is_start_tie = i == max_i;
+                boolean ends_earlier_j = i < max_j;
+                if ( (starts_earlier_i) || (is_start_tie && ends_earlier_j) ) {
+                    max_i = i;
+                    max_j = i;
+                }
+            }
+
+            // NEW MAX CHECK
+            //  UPDATE the max
+            else if (sol[i][i] > max_sum) {
+                max_sum = sol[i][i];
+                max_i = i;
+                max_j = i;
+            }
+        }
+
+
+        // 2. Run DP
         int rc_offset = 1;
         while (rc_offset < n) {
             // rc_offset-th diagonal from the base case
